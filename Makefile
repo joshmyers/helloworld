@@ -99,4 +99,7 @@ run_app: ## Run app in Minikube
 	@kubectl expose deployment $(PKG) --type=LoadBalancer
 	@echo "==> Service exposed at $$(minikube service --url $(PKG))"
 
+.PHONY: all
+all: minikube_start build run_app ## Start Minikube, run tests, build app, build container, run app
+
 export
