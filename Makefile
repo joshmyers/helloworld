@@ -92,4 +92,11 @@ build_container: ## Build Docker container
 .PHONY: build
 build: test build_app build_container ## Run tests, build application, build container
 
+.PHONY: run_app
+run_app: ## Run app in Minikube
+	@echo "==> Running app $(PKG):$(GITCOMMIT)"
+	@kubectl run $(PKG) --image=$(PKG):$(GITCOMMIT) --port=8080 --replicas=2
+	@kubectl expose deployment $(PKG) --type=LoadBalancer
+	@echo "==> Service exposed at $$(minikube service --url $(PKG))"
+
 export
