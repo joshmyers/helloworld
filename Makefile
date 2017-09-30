@@ -44,7 +44,13 @@ build_app: ## Build Go binary for all GOARCH
 	@echo "==> Building $(PKG) for all GOARCH/GOOS..."
 	@$(foreach GOARCH,$(GOARCHS),$(foreach GOOS,$(GOOSES),$(call cross_build,$(GOOS),$(GOARCH))))
 
+.PHONY: build_container
+build_container: ## Build Docker container
+	@eval $$(minikube docker-env) ; \
+	echo "==> Building container..." ; \
+	docker build -t "$(PKG):$(GITCOMMIT)" .
+
 .PHONY: build
-build: test build_app ## Run tests, build application
+build: test build_app build_container ## Run tests, build application, build container
 
 export
