@@ -54,6 +54,20 @@ kubectl_install: ## Install kubectl
 .PHONY: preflight_checks
 preflight_checks: minikube_install kubectl_install
 
+.PHONY: minikube_start
+minikube_start: preflight_checks ## Start minikube
+	@echo '==> Starting Minikube with the "$(MINIKUBE_DRIVER)" driver'
+	@minikube start --vm-driver=$(MINIKUBE_DRIVER)
+
+.PHONY: minikube_stop
+minikube_stop: ## Stop minikube
+	@echo "==> Stopping Minikube..."
+	@minikube stop
+
+.PHONY: minikube_dashboard
+minikube_dashboard: ## Open Minikube dashboard
+	@minikube dashboard
+
 .PHONY: go_fmt
 go_fmt: ## Run gofmt over all *.go files
 	@echo "==> Running source files through gofmt..."
